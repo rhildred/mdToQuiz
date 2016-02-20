@@ -1,0 +1,16 @@
+{
+    "name": "rhildred/MdToQuiz",
+    "autoload": {
+        "psr-0": {
+            "RHildred\\MdToQuiz": "src"
+        }
+    },
+    "require": {
+        "slim/slim": "^2.6",
+        "rhildred/slimphpviews": "dev-master",
+        "rhildred/editable": "dev-master",
+        "rhildred/bitbucket-bug-report": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "license": "MIT"
+}

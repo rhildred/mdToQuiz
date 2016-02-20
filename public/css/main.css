@@ -1,0 +1,32 @@
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css");
+.nav{
+    margin: 0 0 0 .2em;
+}
+a.scrollToTop {
+    width: 100px;
+    height: 130px;
+    padding: 10px;
+    text-align: center;
+    font-family: 'Roboto Condensed', 'tahoma', 'Verdana', 'Geneva', sans-serif;
+    font-size: 13px;
+    background: url('https://rhildred.github.io/singlePage/www/images/uparrow.png') no-repeat center center;
+    font-weight: none;
+    color: #444;
+    text-decoration: none;
+    position: fixed;
+    top: 75px;
+    right: 1px;
+    display: block;
+    -webkit-transition: 3s;
+    -moz-transition: 3s;
+    transition: 3s;
+    cursor: pointer;
+    z-index: 8;
+}
+.scrollToTop:hover {
+    text-decoration: none;
+}
+slide{
+    height: 300px;
+}
+Status API Training Shop Blog About Pricing
