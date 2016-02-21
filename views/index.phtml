@@ -9,64 +9,85 @@
         <meta name="author" content="rhildred">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <link rel="stylesheet" href="https://rhildred.github.io/singlepageui-bootstrap/css/main.css" />
+        <link rel="stylesheet" href="css/main.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-route.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-scroll/0.7.2/angular-scroll.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-touch.js"></script>
-        <script src="https://rhildred.github.io/singlepageui-bootstrap/js/singlepageui-bootstrap.js"></script>
+        <script src="js/singlepageui-bootstrap.js"></script>
 
         <!--[if lt IE 9]>
 <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
     </head>
 
-    <body>
-        <!-- this part is the angular app for now -->
-        <div ng-app="app" ng-controller="navController">
-            <div id="home">
-                <img src="images/target-39708_960_720.png" alt="drop md file here" title="drop md file here" style="display:block;height:300px;margin:0 auto" />
-                <button class="btn btn-default" style="display:block;margin:10px auto">Upload File</button>
+    <body ng-app="app" ng-controller="navController">
+        <div id="home" class="bookmark row">
+            <div class="col-md-3">
+                 <fieldset class="form-group">
+                    <label for="quiztitle">Quiz Title:</label>
+                    <input ng-model="quiz.title" type="text" class="form-control" id="quiztitle" placeholder="Enter quiz title">
+                  </fieldset>
+                <?php \RHildred\Editable\Markdown::render( __DIR__ . "/description.md"); ?>
             </div>
-            <div class="navbar navbar-inverse {{navClass}}" role="navigation">
-                <div class="navbar-header">
+            <div class="col-md-9">
+                <img id="filedrag" src="images/target-39708_960_720.png" alt="drop md file here" title="drop md file here" style="display:block;height:300px;margin:0 auto"/>
+                <form ng-submit="submitFile()" style="width:60%;display:block;margin:10px auto" enctype="multipart/form-data" id="fileid">
+                    <input type="file" name="fileToUpload" id="fileToUpload" style="display:inline">
+                    <input class="btn btn-default" type="submit" value="Upload" name="submit">
+                </form>
+            </div>
 
-                    <!-- note the ng-init and ng-click here: -->
-                    <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">MdToQuiz</a>
-                </div>
+        </div>
+        <div class="navbar navbar-inverse {{navClass}}" role="navigation">
+            <div class="navbar-header">
 
-                <!-- note the ng-class here -->
-                <div class="collapse navbar-collapse" ng-class="{'in':!navCollapsed}">
+                <!-- note the ng-init and ng-click here: -->
+                <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">MdToQuiz</a>
+            </div>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li du-scrollspy="home" class="active"><a href="#home" data-toggle="collapse" data-target=".navbar-collapse.in">Home</a>
-                        </li>
-                        <li du-scrollspy="about"><a href="#about" data-toggle="collapse" data-target=".navbar-collapse.in">About</a>
-                        </li>
-                        <li du-scrollspy="contact"><a href="#contact" data-toggle="collapse" data-target=".navbar-collapse.in">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-                <a href="#home" class="scrollToTop" ng-hide="bAboveMenu">TO TOP</a>
-                <div ng-view></div>
+            <!-- note the ng-class here -->
+            <div class="collapse navbar-collapse" ng-class="{'in':!navCollapsed}">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li du-scrollspy="about"><a href="#about" data-toggle="collapse" data-target=".navbar-collapse.in">About</a>
+                    </li>
+                    <li du-scrollspy="contact"><a href="#contact" data-toggle="collapse" data-target=".navbar-collapse.in">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <a href="#home" class="scrollToTop" ng-hide="bAboveMenu">TO TOP</a>
+            <div ng-view></div>
+        </div>
+        <div class="bookmark row">
+            <div class="col-md-7">
+                <form ng-submit="uploadText">
+                     <fieldset class="form-group">
+                        <label for="markdowntext">Markdown:</label>
+                        <textarea id="markdowntext" class="form-control" ng-model="quiz.markdown" placeholder="Enter Markdown Here"></textarea>
+                    </fieldset>
+                    <input type="submit" value="Send" class="btn btn-primary btn-md" />
+                    <input type="reset" value="Reset" class="btn btn-primary btn-md" />
+                </form>
+            </div>
+            <div class="col-md-5">
+                <?php \RHildred\Editable\Markdown::render( __DIR__ . "/index.md"); ?>
             </div>
         </div>
-
-        <?php \RHildred\Editable\Markdown::render( __DIR__ . "/index.md"); ?>
         
         <div class="bookmark" id="about">
             <?php \RHildred\Editable\Markdown::render( __DIR__ . "/about.md"); ?>
 
         </div>
-        <div id="contact">
+        <div class="bookmark" id="contact">
             <h2>Contact Rich Hildred</h2>
             <div style="overflow:hidden;height:350px;width:100%;">
                 <script src="https://maps.google.com/maps/api/js"></script>
@@ -157,16 +178,22 @@
                 </table>
             </div>
             <div class="col-md-8">
-                <form id="inquiry" action="bugreport">
-                    <input type="email" name="email" placeholder="Reply email address" />
-                    <br />
-                    <input type="text" name="subject" placeholder="Subject of your inquiry" />
-                    <br />
-                    <textarea name="message" placeholder="Your Inquiry"></textarea>
-                    <br />
+                <form ng-submit="submitBugReport()">
+                     <fieldset class="form-group">
+                        <label for="contactemail">Email:</label>
+                        <input id="contactemail" class="form-control" type="email" ng-model="contact.email" placeholder="Reply email address" />
+                    </fieldset>
+                     <fieldset class="form-group">
+                        <label for="contactsubject">Subject:</label>
+                        <input id="contactsubject" class="form-control" type="text" ng-model="contact.subject" placeholder="Subject of your inquiry" />
+                    </fieldset>
+                     <fieldset class="form-group">
+                        <label for="contactmessage">Message:</label>
+                        <textarea id="contactmessage" class="form-control" ng-model="contact.message" placeholder="Your Inquiry"></textarea>
+                    </fieldset>
                     <input type="submit" value="Send" class="btn btn-primary btn-md" />
                     <input type="reset" value="Reset" class="btn btn-primary btn-md" />
-                    <span id="result"></span>
+                    <span class="alert alert-success" ng-hide="!successmessage">{{successmessage}}</span><span class="alert alert-warning" ng-hide="!errormessage">{{errormessage}}</span>
                     <br />
                 </form>
             </div>
